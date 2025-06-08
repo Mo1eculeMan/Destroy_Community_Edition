@@ -96,7 +96,7 @@ public class ReactionTooltipHelper {
             if (count == 1) {
                 tooltip.addAll(TooltipHelper.cutTextComponent(DestroyLang.translate("tooltip.reaction.item_product.single").component(), Palette.GRAY_AND_WHITE));
             } else {
-                tooltip.addAll(TooltipHelper.cutTextComponent(DestroyLang.translate("tooltip.reaction.item_product.plural", count).component(), Palette.GRAY_AND_WHITE));
+                tooltip.addAll(TooltipHelper.cutTextComponent(DestroyLang.translate("tooltip.reaction.item_product.plural", Double.toString(count).substring(0, 2)).component(), Palette.GRAY_AND_WHITE));
             };
         };
 	};

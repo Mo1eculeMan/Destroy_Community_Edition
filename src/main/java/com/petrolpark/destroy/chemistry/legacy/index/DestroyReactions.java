@@ -25,10 +25,9 @@ public class DestroyReactions {
         .addReactant(DestroyMolecules.BUTADIENE)
         .addReactant(DestroyMolecules.STYRENE)
         .addCatalyst(DestroyMolecules.AIBN, 0)
-        .withResult(1f, (m, r) -> new CombinedReactionResult(m, r)
-            .with(PrecipitateReactionResult.of(DestroyItems.ABS::asStack))
-            .with(DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
-        ).preexponentialFactor(15f)
+        .addItemProduct(DestroyItems.ABS::get, 1f)
+        .withResult(1f, DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
+        .preexponentialFactor(15f)
         .activationEnergy(20f)
         .build(),
 
@@ -43,10 +42,9 @@ public class DestroyReactions {
         .id("acrylonitrile_polymerization")
         .addReactant(DestroyMolecules.ACRYLONITRILE)
         .addCatalyst(DestroyMolecules.AIBN, 0)
-        .withResult(3f, (m, r) -> new CombinedReactionResult(m, r)
-            .with(PrecipitateReactionResult.of(DestroyItems.POLYACRYLONITRILE::asStack))
-            .with(DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
-        ).preexponentialFactor(10f)
+        .addItemProduct(DestroyItems.POLYACRYLONITRILE::get, 1/3f)
+        .withResult(3f, DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
+        .preexponentialFactor(10f)
         .activationEnergy(10f)
         .build(),
 
@@ -95,7 +93,7 @@ public class DestroyReactions {
         .id("baby_blue_precipitation")
         .addReactant(DestroyMolecules.METHYL_SALICYLATE)
         .addCatalyst(DestroyMolecules.SODIUM_ION, 0)
-        .withResult(0.9f, PrecipitateReactionResult.of(DestroyItems.BABY_BLUE_CRYSTAL::asStack))
+        .addItemProduct(DestroyItems.BABY_BLUE_CRYSTAL::get, 1f)
         .includeInJeiIf(DestroySubstancesConfigs::babyBlueEnabled)
         .build(),
 
@@ -172,7 +170,7 @@ public class DestroyReactions {
         .addReactant(DestroyMolecules.HYDROXIDE, 6)
         .addSimpleItemReactant(DestroyItems.ANIMAL_FAT, 2f)
         .addProduct(DestroyMolecules.GLYCEROL, 2)
-        .withResult(0.5f, PrecipitateReactionResult.of(DestroyItems.SOAP::asStack))
+        .addItemProduct(DestroyItems.SOAP::get, 2f)
         .build(),
 
     CARBIDE_HYDROLYSIS = builder()
@@ -227,7 +225,7 @@ public class DestroyReactions {
         .addSimpleItemReactant(DestroyItems.PAPER_PULP, 2f)
         .addProduct(DestroyMolecules.PROTON)
         .addProduct(DestroyMolecules.WATER) //TODO in future add oxalic acid side product
-        .withResult(2f, PrecipitateReactionResult.of(DestroyItems.NITROCELLULOSE::asStack))
+        .addItemProduct(DestroyItems.NITROCELLULOSE::get, 0.5f)
         .build(),
 
     CHLORINE_HALOFORM_REACTION = builder()
@@ -268,10 +266,9 @@ public class DestroyReactions {
         .id("chloroethene_polymerization")
         .addReactant(DestroyMolecules.CHLOROETHENE)
         .addCatalyst(DestroyMolecules.AIBN, 0)
-        .withResult(3f, (m, r) -> new CombinedReactionResult(m, r)
-            .with(PrecipitateReactionResult.of(DestroyItems.POLYVINYL_CHLORIDE::asStack))
-            .with(DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
-        ).preexponentialFactor(10f)
+        .addItemProduct(DestroyItems.POLYVINYL_CHLORIDE, 1/3f)
+        .withResult(3f, DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
+        .preexponentialFactor(10f)
         .activationEnergy(10f)
         .build(),
 
@@ -330,7 +327,7 @@ public class DestroyReactions {
         .addReactant(DestroyMolecules.ACETONE)
         .addReactant(DestroyMolecules.NITROGLYCERINE)
         .addSimpleItemReactant(DestroyItems.NITROCELLULOSE::get, 1f)
-        .withResult(2.99f, PrecipitateReactionResult.of(DestroyBlocks.CORDITE_BLOCK::asStack))
+        .addItemProduct(DestroyBlocks.CORDITE_BLOCK::asItem, 1/3f)
         .build(),
 
     CROCOITE_DISSOLUTION = builder()
@@ -400,7 +397,7 @@ public class DestroyReactions {
     CREATINE_PRECIPITATION = builder()
         .id("creatine_precipitation")
         .addReactant(DestroyMolecules.CREATINE)
-        .withResult(10f, PrecipitateReactionResult.of(DestroyItems.CREATINE::asStack))
+        .addItemProduct(DestroyItems.CREATINE::get, 0.1f)
         .build(),
 
     DIBORANE_HYDROLYSIS = builder()
@@ -426,10 +423,9 @@ public class DestroyReactions {
         .id("ethene_polymerization")
         .addReactant(DestroyMolecules.ETHENE)
         .addCatalyst(DestroyMolecules.AIBN, 0)
-        .withResult(3f, (m, r) -> new CombinedReactionResult(m, r)
-            .with(PrecipitateReactionResult.of(DestroyItems.POLYETHENE::asStack))
-            .with(DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
-        ).preexponentialFactor(10f)
+        .addItemProduct(DestroyItems.POLYETHENE::get, 1/3f)
+        .withResult(3f, DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
+        .preexponentialFactor(10f)
         .activationEnergy(10f)
         .build(),
 
@@ -553,6 +549,7 @@ public class DestroyReactions {
         .enthalpyChange(-500f)
         .build(),
 
+        /*
     HYDROGEN_CYANIDE_DISSOCIATION = builder()
         .id("hydrogen_cyanide_dissociation")
         .addReactant(DestroyMolecules.HYDROGEN_CYANIDE)
@@ -561,6 +558,7 @@ public class DestroyReactions {
         .addProduct(DestroyMolecules.WATER)
         .addProduct(DestroyMolecules.CYANIDE)
         .build(),
+*/ //TODO readd if needed
 
     HYDROGEN_IODIDE_SYNTHESIS = builder()
         .id("hydrogen_iodide_synthesis")
@@ -633,7 +631,8 @@ public class DestroyReactions {
     ISOPRENE_POLYMERIZATION = builder()
         .id("isoprene_polymerization")
         .addReactant(DestroyMolecules.ISOPRENE)
-        .withResult(3f, PrecipitateReactionResult.of(DestroyItems.POLYISOPRENE::asStack))
+        .addItemProduct(DestroyItems.POLYISOPRENE::get, 1/3f)
+        //.withResult(3f, PrecipitateReactionResult.of(DestroyItems.POLYISOPRENE::asStack))
         .preexponentialFactor(10f)
         .activationEnergy(10f)
         .build(),
@@ -696,7 +695,7 @@ public class DestroyReactions {
         .addProduct(DestroyMolecules.HYDROXIDE, 12)
         .addProduct(DestroyMolecules.WATER, 6)
         .addProduct(DestroyMolecules.NITROGEN_DIOXIDE, 6)
-        .withResult(5f, PrecipitateReactionResult.of(DestroyItems.FULMINATED_MERCURY::asStack))
+        .addItemProduct(DestroyItems.FULMINATED_MERCURY::get, 1/5f)
         .build(),
 
     METAXYLENE_TRANSALKYLATION = builder()
@@ -740,7 +739,7 @@ public class DestroyReactions {
         .addReactant(DestroyMolecules.NICKEL_ION)
         .addReactant(DestroyMolecules.NITRATE, 2, 0)
         .addReactant(DestroyMolecules.HYDRAZINE, 3)
-        .withResult(3f, PrecipitateReactionResult.of(DestroyItems.NICKEL_HYDRAZINE_NITRATE::asStack)) //TODO figure out actual molar ratios
+        .addItemProduct(DestroyItems.NICKEL_HYDRAZINE_NITRATE::get, 1/3f)//TODO figure out actual molar ratios
         .build(),
 
     NICKEL_DISSOLUTION = builder() //TODO replace with redox
@@ -773,7 +772,7 @@ public class DestroyReactions {
         .id("nylon_polymerisation")
         .addReactant(DestroyMolecules.ADIPIC_ACID)
         .addReactant(DestroyMolecules.HEXANEDIAMINE)
-        .withResult(3f, PrecipitateReactionResult.of(DestroyItems.NYLON::asStack)) //TODO work out proportions
+        .addItemProduct(DestroyItems.NYLON::get, 2/3f)
         .build(),
 
     OLEUM_FORMATION = builder()
@@ -864,17 +863,16 @@ public class DestroyReactions {
         .id("propene_polymerization")
         .addReactant(DestroyMolecules.PROPENE)
         .addCatalyst(DestroyMolecules.AIBN, 0)
-        .withResult(3f, (m, r) -> new CombinedReactionResult(m, r)
-            .with(PrecipitateReactionResult.of(DestroyItems.POLYPROPENE::asStack))
-            .with(DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
-        ).preexponentialFactor(10f)
+        .addItemProduct(DestroyItems.POLYPROPENE::get, 1/3f)
+        .withResult(3f, DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
+        .preexponentialFactor(10f)
         .activationEnergy(10f)
         .build(),
 
     SODIUM_AMALGAMIZATION = builder()
         .id("sodium_amalgamization")
         .addReactant(DestroyMolecules.MERCURY, 0, 1)
-        .addSimpleItemTagReactant(AllTags.forgeItemTag("ingots/sodium"), 9.9f) // One sodium ingot = 10 moles of sodium atoms
+        .addSimpleItemTagReactant(AllTags.forgeItemTag("ingots/sodium"), 10f) // One sodium ingot = 10 moles of sodium atoms
         .addProduct(DestroyMolecules.SODIUM_METAL)
         .activationEnergy(1f) // Very fast as long as Mercury is present
         .reverseReaction(r -> r
@@ -927,7 +925,7 @@ public class DestroyReactions {
         .addReactant(DestroyMolecules.HYDROXIDE, 3)
         .addSimpleItemReactant(DestroyItems.ANIMAL_FAT, 1f)
         .addProduct(DestroyMolecules.GLYCEROL, 1)
-        .withResult(1f, PrecipitateReactionResult.of(DestroyItems.SOAP::asStack))
+        .addItemProduct(DestroyItems.SOAP::get, 1f)
         .build(),
 
     SODIUM_INGOT_DISSOLUTION = builder()
@@ -964,10 +962,9 @@ public class DestroyReactions {
         .addReactant(DestroyMolecules.STYRENE)
         .addReactant(DestroyMolecules.BUTADIENE)
         .addCatalyst(DestroyMolecules.AIBN, 0)
-        .withResult(1.5f, (m, r) -> new CombinedReactionResult(m, r)
-            .with(PrecipitateReactionResult.of(DestroyItems.POLYSTYRENE_BUTADIENE::asStack))
-            .with(DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
-        ).preexponentialFactor(10f)
+        .addItemProduct(DestroyItems.POLYSTYRENE_BUTADIENE::get, 2/3f)
+        .withResult(1.5f, DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
+        .preexponentialFactor(10f)
         .activationEnergy(15f)
         .build(),
 
@@ -975,10 +972,9 @@ public class DestroyReactions {
         .id("styrene_polymerization")
         .addReactant(DestroyMolecules.STYRENE)
         .addCatalyst(DestroyMolecules.AIBN, 0)
-        .withResult(3f, (m, r) -> new CombinedReactionResult(m, r)
-            .with(PrecipitateReactionResult.of(DestroyItems.POLYSTYRENE::asStack))
-            .with(DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
-        ).preexponentialFactor(10f)
+        .addItemProduct(DestroyItems.POLYSTYRENE::get, 1/3f)
+        .withResult(3f, DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
+        .preexponentialFactor(10f)
         .activationEnergy(10f)
         .build(),
     
@@ -1007,7 +1003,7 @@ public class DestroyReactions {
         .addReactant(DestroyMolecules.ACETONE)
         .addReactant(DestroyMolecules.HYDROGEN_PEROXIDE)
         .addCatalyst(DestroyMolecules.PROTON, 1)
-        .withResult(3f, PrecipitateReactionResult.of(DestroyItems.ACETONE_PEROXIDE::asStack))
+        .addItemProduct(DestroyItems.ACETONE_PEROXIDE::get, 1/3f)
         .build(),
 
     TETRABORATE_EQUILIBRIUM = builder()
@@ -1033,10 +1029,9 @@ public class DestroyReactions {
         .id("tetrafluoroethene_polymerization")
         .addReactant(DestroyMolecules.TETRAFLUOROETHENE)
         .addCatalyst(DestroyMolecules.AIBN, 0)
-        .withResult(3f, (m, r) -> new CombinedReactionResult(m, r)
-            .with(PrecipitateReactionResult.of(DestroyItems.POLYTETRAFLUOROETHENE::asStack))
-            .with(DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
-        ).preexponentialFactor(10f)
+        .addItemProduct(DestroyItems.POLYTETRAFLUOROETHENE::get, 1/3f)
+        .withResult(3f, DestroyAdvancementTrigger.ADDITION_POLYMER::asReactionResult)
+        .preexponentialFactor(10f)
         .activationEnergy(10f)
         .build(),
 
@@ -1071,21 +1066,21 @@ public class DestroyReactions {
         .id("touch_powder_synthesis")
         .addReactant(DestroyMolecules.AMMONIA)
         .addSimpleItemReactant(DestroyItems.IODINE::get, 3f)
-        .withResult(3f, PrecipitateReactionResult.of(DestroyItems.TOUCH_POWDER::asStack))
+        .addItemProduct(DestroyItems.TOUCH_POWDER::get, 1/3f)
         .build(),
 
     URETHANE_HDI_POLYMERIZATION = builder()
         .id("urethane_hdi_polymerization")
         .addReactant(DestroyMolecules.GLYCEROL)
         .addReactant(DestroyMolecules.HEXANE_DIISOCYANATE)
-        .withResult(1f, PrecipitateReactionResult.of(DestroyItems.POLYURETHANE::asStack))
+        .addItemProduct(DestroyItems.POLYURETHANE::get, 1f)
         .build(),
 
     URETHANE_TDI_POLYMERIZATION = builder()
         .id("urethane_tdi_polymerization")
         .addReactant(DestroyMolecules.GLYCEROL)
         .addReactant(DestroyMolecules.TOLUENE_DIISOCYANATE)
-        .withResult(1f, PrecipitateReactionResult.of(DestroyItems.POLYURETHANE::asStack))
+        .addItemProduct(DestroyItems.POLYURETHANE::get, 1f)
         .build(),
 
     VINYL_ACETATE_SYNTHESIS = builder()

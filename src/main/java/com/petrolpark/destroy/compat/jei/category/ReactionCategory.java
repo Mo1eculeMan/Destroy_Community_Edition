@@ -183,6 +183,7 @@ public class ReactionCategory<T extends ReactionRecipe> extends HoverableTextCat
         	.addItemStack(new ItemStack(item, 1))
         	.addRichTooltipCallback(ReactionTooltipHelper.itemProductTooltip(reaction, item, entry.getSecond()))
         	.setBackground(getRenderedSlot(), -1, -1);
+        	j++;
         }
         
         int numberOfCatalysts = getNumberOfCatalysts(reaction);

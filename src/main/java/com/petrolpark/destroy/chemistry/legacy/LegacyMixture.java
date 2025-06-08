@@ -350,7 +350,7 @@ public class LegacyMixture extends ReadOnlyMixture {
     public void disturbEquilibrium() {
         equilibrium = false;
     };
-
+    
     /**
      * Reacts the contents of this Mixture for one tick, if it is not already at {@link LegacyMixture#equilibrium equilibrium}.
      * @param context
@@ -410,6 +410,7 @@ public class LegacyMixture extends ReadOnlyMixture {
 
             doEachReaction: for (LegacyReaction reaction : orderedReactions) { // Go through each Reaction, fastest first
 
+            	//Check that we have enough reactants
                 double molesOfReactionPerLiter = reactionRates.get(reaction); // We are reacting over one tick, so moles of Reaction that take place in this time = rate of Reaction in M per sub-tick
 
                 for (LegacySpecies reactant : reaction.getReactants()) {
